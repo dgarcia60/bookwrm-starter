@@ -1,0 +1,47 @@
+<section class="book-wrapper">
+  <div class="book-block-container">
+    <% if @book.image_url %>
+      <%= image_tag  @book.image_url %>
+    <% end %>
+    <div class="text-block">
+      <h1><%= @book.title %></h1>
+      <h6><%= link_to @book.author.full_name, author_path(@book.author) %></h6>
+      <br>
+
+      <br>
+      <p><%= @book.description %></p>
+      <% if current_user.present? %>
+        <%= link_to "Write a review", new_book_review_path(@book), class: 'button-primary' %>
+        <%= link_to 'Edit', edit_book_path(@book) %>
+      <% end %>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="reviews-block-container">
+    <h3>Reviews (<%= @book.reviews.size %>)</h3>
+    <div class="reviews">
+      <% @book.reviews.each do |review| %>
+        <div class="review">
+          <div class="user-initials">
+            <%= review.user.initials %>
+          </div>
+          <div class="text-block">
+            <div class="user-name">
+              <strong><%= review.user.full_name %></strong>
+            </div>
+            <div class="rating-stars">
+              <%= image_tag("#{review.rating}-stars.svg") %>
+              <div class="timestamp">
+                <%= review.created_at.strftime("%-m/%-d/%Y")%>
+              </div>
+            </div>
+          </div>
+          <div class="description">
+            <%= review.description %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>
